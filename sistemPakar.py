@@ -62,10 +62,17 @@ class Greetings(KnowledgeEngine):
 	def symptom_1(self):
 		self.declare(Fact(benjolan_di_kulit=input("Apakah anda mengalami benjolan di kulit: ")))
 
+	@Rule(Fact(action='find_disease'), NOT(Fact(minyak_berlebih=W())),salience = 1)
+	def symptom_2(self):
+		self.declare(Fact(minyak_berlebih=input("Apakah wajah Anda mengalami minyak berlebih: ")))
+
 	# Analisis
-	@Rule(Fact(action='find_disease'),Fact(kulit_membengkak="yes"),Fact(benjolan_di_kulit="yes"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_membengkak="yes"),Fact(benjolan_di_kulit="yes"), Fact(minyak_berlebih="no"))
 	def disease_0(self):
 		self.declare(Fact(disease="Jerawat"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_membengkak="no"),Fact(benjolan_di_kulit="no"), Fact(minyak_berlebih="yes"))
+	def disease_1(self):
+		self.declare(Fact(disease="Berminyak"))
 
 	# Hasil diagnosa
 	@Rule(Fact(action='find_disease'),Fact(disease=MATCH.disease),salience = -998)
@@ -91,6 +98,7 @@ class Greetings(KnowledgeEngine):
 	@Rule(Fact(action='find_disease'),
 		  Fact(kulit_membengkak=MATCH.kulit_membengkak),
 		  Fact(benjolan_di_kulit=MATCH.benjolan_di_kulit),
+		  Fact(minyak_berlebih=MATCH.minyak_berlebih),
 		  NOT(Fact(disease=MATCH.disease)),salience = -999)
 
 	def if_not_matched(max_disease):
