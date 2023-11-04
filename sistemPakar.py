@@ -43,24 +43,6 @@ def get_details(disease):
 def get_treatments(disease):
 	return d_treatment_map[disease]
 
-def if_not_matched(disease):
-		print("")
-		id_disease = disease
-		disease_details = get_details(id_disease)
-		treatments = get_treatments(id_disease)
-		print("")
-		print("Kemungkinan penyakit yang kamu miliki adalah %s\n" %(id_disease))
-
-		plt.imshow(mpimg.imread("./img/" + id_disease + ".jpg"))
-		plt.title(id_disease)
-		plt.axis('off')
-		plt.show()
-
-		print("Sedikit deskripsi tentang penyakit yang diberikan :")
-		print(disease_details+"\n")
-		print("Pengobatan umum dan prosedur yang disarankan oleh dokter adalah :")
-		print(treatments+"\n")
-
 class Greetings(KnowledgeEngine):
 	@DefFacts()
 	def _initial_action(self):
@@ -94,16 +76,16 @@ class Greetings(KnowledgeEngine):
 		disease_details = get_details(id_disease)
 		treatments = get_treatments(id_disease)
 		print("")
-		print("Kemungkinan terbesar yang anda alami adalah %s\n" %(id_disease))
+		print("Kemungkinan terbesar kondisi yang anda alami adalah %s\n" %(id_disease))
 
 		plt.imshow(mpimg.imread("./img/" + id_disease + ".jpg"))
 		plt.title(id_disease)
 		plt.axis('off')
 		plt.show()
 
-		print("Berikut deskripsi singkat dari penyakit yang diberikan :")
+		print("Berikut deskripsi singkat dari kondisi anda:")
 		print(disease_details+"\n")
-		print("Beberapa pengobatan yang disarankan :")
+		print("Beberapa pengobatan yang disarankan:")
 		print(treatments+"\n")
 
 	@Rule(Fact(action='find_disease'),
@@ -111,22 +93,8 @@ class Greetings(KnowledgeEngine):
 		  Fact(benjolan_di_kulit=MATCH.benjolan_di_kulit),
 		  NOT(Fact(disease=MATCH.disease)),salience = -999)
 
-	def not_matched(self,kulit_membengkak, benjolan_di_kulit):
-		print("\nTidak menemukan penyakit yang sangat pas dengan gejala yang anda alami")
-		lis = [kulit_membengkak, benjolan_di_kulit]
-		max_count = 0
-		max_disease = ""
-		for key,val in symptom_map.items():
-			count = 0
-			temp_list = eval(key)
-			for j in range(0,len(lis)):
-				if(temp_list[j] == lis[j] and lis[j] == "yes"):
-					count = count + 1
-			if count > max_count:
-				max_count = count
-				max_disease = val
-		if_not_matched(max_disease)
-
+	def if_not_matched(max_disease):
+		print("Tidak ditemukan kondisi kulit yang cocok dengan wajah anda.\n")
 
 if __name__ == "__main__":
 	preprocess()
