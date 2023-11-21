@@ -54,25 +54,47 @@ class Greetings(KnowledgeEngine):
 		yield Fact(action="find_disease")
 
 	# Gejala
-	@Rule(Fact(action='find_disease'), NOT(Fact(kulit_membengkak=W())),salience = 1)
+	@Rule(Fact(action='find_disease'), NOT(Fact(tidak_banyak_mengeluarkan_minyak=W())),salience = 1)
 	def symptom_0(self):
-		self.declare(Fact(kulit_membengkak=input("Apakah anda mengalami pembengkakan kulit: ")))
+		self.declare(Fact(tidak_banyak_mengeluarkan_minyak=input("Apakah kulit wajah anda tidak banyak mengeluarkan minyak: ")))
 
-	@Rule(Fact(action='find_disease'), NOT(Fact(benjolan_di_kulit=W())),salience = 1)
+	@Rule(Fact(action='find_disease'), NOT(Fact(kulit_wajah_mudah_berjerawat=W())),salience = 1)
 	def symptom_1(self):
-		self.declare(Fact(benjolan_di_kulit=input("Apakah anda mengalami benjolan di kulit: ")))
+		self.declare(Fact(kulit_wajah_mudah_berjerawat=input("Apakah kulit wajah anda mudah berjerawat: ")))
 
-	@Rule(Fact(action='find_disease'), NOT(Fact(minyak_berlebih=W())),salience = 1)
+	@Rule(Fact(action='find_disease'), NOT(Fact(pori_wajah_terlihat=W())),salience = 1)
 	def symptom_2(self):
-		self.declare(Fact(minyak_berlebih=input("Apakah wajah Anda mengalami minyak berlebih: ")))
+		self.declare(Fact(pori_wajah_terlihat=input("Apakah kulit wajah anda pori-porinya terlihat: ")))
+	
+	@Rule(Fact(action='find_disease'), NOT(Fact(sering_mengalami_gatal=W())),salience = 1)
+	def symptom_3(self):
+		self.declare(Fact(sering_mengalami_gatal=input("Apakah kulit wajah anda sering mengalami gatal: ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(lembut=W())),salience = 1)
+	def symptom_4(self):
+		self.declare(Fact(lembut=input("Apakah kulit wajah anda lembut dan halus: ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(bagian_pipi_kering=W())),salience = 1)
+	def symptom_5(self):
+		self.declare(Fact(bagian_pipi_kering=input("Apakah kulit wajah anda pada bagian pipi kering: ")))
 
 	# Analisis
-	@Rule(Fact(action='find_disease'),Fact(kulit_membengkak="yes"),Fact(benjolan_di_kulit="yes"), Fact(minyak_berlebih="no"))
+	@Rule(Fact(action='find_disease'),Fact(tidak_banyak_mengeluarkan_minyak="yes"),Fact(kulit_wajah_mudah_berjerawat="no"), Fact(pori_wajah_terlihat="no"), Fact(sering_mengalami_gatal="no"),Fact(lembut="yes"), Fact(bagian_pipi_kering="no"))
 	def disease_0(self):
-		self.declare(Fact(disease="Jerawat"))
-	@Rule(Fact(action='find_disease'),Fact(kulit_membengkak="no"),Fact(benjolan_di_kulit="no"), Fact(minyak_berlebih="yes"))
+		self.declare(Fact(disease="normal"))
+	@Rule(Fact(action='find_disease'),Fact(tidak_banyak_mengeluarkan_minyak="no"),Fact(kulit_wajah_mudah_berjerawat="yes"), Fact(pori_wajah_terlihat="yes"),Fact(sering_mengalami_gatal="no"),Fact(lembut="no"), Fact(bagian_pipi_kering="no"))
 	def disease_1(self):
 		self.declare(Fact(disease="Berminyak"))
+	@Rule(Fact(action='find_disease'),Fact(tidak_banyak_mengeluarkan_minyak="yes"),Fact(kulit_wajah_mudah_berjerawat="no"), Fact(pori_wajah_terlihat="no"), Fact(sering_mengalami_gatal="no"),Fact(lembut="no"), Fact(bagian_pipi_kering="no"))
+	def disease_3(self):
+		self.declare(Fact(disease="kering"))
+	@Rule(Fact(action='find_disease'),Fact(tidak_banyak_mengeluarkan_minyak="yes"),Fact(kulit_wajah_mudah_berjerawat="no"), Fact(pori_wajah_terlihat="yes"),Fact(sering_mengalami_gatal="yes"),Fact(lembut="no"), Fact(bagian_pipi_kering="no"))
+	def disease_4(self):
+		self.declare(Fact(disease="sensitive"))
+	@Rule(Fact(action='find_disease'),Fact(tidak_banyak_mengeluarkan_minyak="yes"),Fact(kulit_wajah_mudah_berjerawat="yes"), Fact(pori_wajah_terlihat="no"), Fact(sering_mengalami_gatal="no"),Fact(lembut="no"), Fact(bagian_pipi_kering="yes"))
+	def disease_5(self):
+		self.declare(Fact(disease="kombinasi"))
+
 
 	# Hasil diagnosa
 	@Rule(Fact(action='find_disease'),Fact(disease=MATCH.disease),salience = -998)
@@ -96,12 +118,15 @@ class Greetings(KnowledgeEngine):
 		print(treatments+"\n")
 
 	@Rule(Fact(action='find_disease'),
-		  Fact(kulit_membengkak=MATCH.kulit_membengkak),
-		  Fact(benjolan_di_kulit=MATCH.benjolan_di_kulit),
-		  Fact(minyak_berlebih=MATCH.minyak_berlebih),
+		  Fact(tidak_banyak_mengeluarkan_minyak=MATCH.tidak_banyak_mengeluarkan_minyak),
+		  Fact(kulit_wajah_mudah_berjerawat=MATCH.kulit_wajah_mudah_berjerawat),
+		  Fact(pori_wajah_terlihat=MATCH.pori_wajah_terlihat),
+		  Fact(sering_mengalami_gatal=MATCH.sering_mengalami_gatal),
+		  Fact(lembut=MATCH.lembut),
+		  Fact(bagian_pipi_kering=MATCH.bagian_pipi_kering),
 		  NOT(Fact(disease=MATCH.disease)),salience = -999)
 
-	def if_not_matched(max_disease):
+	def if_not_matched(self):
 		print("Tidak ditemukan kondisi kulit yang cocok dengan wajah anda.\n")
 
 if __name__ == "__main__":
