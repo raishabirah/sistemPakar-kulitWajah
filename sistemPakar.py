@@ -47,8 +47,8 @@ class Greetings(KnowledgeEngine):
 	@DefFacts()
 	def _initial_action(self):
 		print("")
-		print("Halo! Saya adalah SkinChecker, Saya akan mendiagnosa kondisi kulit wajah anda!")
-		print("Oleh karena itu anda harus menjawab beberapa gejala yang anda alami")
+		print("Halo! Saya adalah SkinChecker, Saya akan melakukan diagnosa kondisi kulit wajah anda!")
+		print("Oleh karena itu anda harus menjawab beberapa pertanyaan mengenai gejala yang anda alami")
 		print("Apakah anda merasakan beberapa gejala dibawah ini(yes/no):")
 		print("")
 		yield Fact(action="find_disease")
@@ -56,58 +56,78 @@ class Greetings(KnowledgeEngine):
 	# Gejala
 	@Rule(Fact(action='find_disease'), NOT(Fact(kulit_berminyak=W())),salience = 1)
 	def symptom_0(self):
-		self.declare(Fact(kulit_berminyak=input("Apakah kulit wajah anda mengeluarkan banyak minyak: ")))
+		self.declare(Fact(kulit_berminyak=input("Apakah kulit wajah anda mengeluarkan banyak minyak? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(mudah_berjerawat=W())),salience = 1)
 	def symptom_1(self):
-		self.declare(Fact(mudah_berjerawat=input("Apakah kulit wajah anda mudah berjerawat: ")))
+		self.declare(Fact(mudah_berjerawat=input("Apakah kulit wajah anda mudah berjerawat? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(pori_terlihat=W())),salience = 1)
 	def symptom_2(self):
-		self.declare(Fact(pori_terlihat=input("Apakah kulit wajah anda pori-porinya terlihat: ")))
+		self.declare(Fact(pori_terlihat=input("Apakah kulit wajah anda pori-porinya terlihat? ")))
 	
 	@Rule(Fact(action='find_disease'), NOT(Fact(gatal=W())),salience = 1)
 	def symptom_3(self):
-		self.declare(Fact(gatal=input("Apakah kulit wajah anda sering mengalami gatal: ")))
+		self.declare(Fact(gatal=input("Apakah kulit wajah anda sering mengalami gatal? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(merah=W())),salience = 1)
 	def symptom_4(self):
-		self.declare(Fact(merah=input("Apakah kulit wajah anda sering merah-merah: ")))
+		self.declare(Fact(merah=input("Apakah kulit wajah anda sering merah-merah? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(tzone_berminyak=W())),salience = 1)
 	def symptom_5(self):
-		self.declare(Fact(tzone_berminyak=input("Apakah dahu, hidung, dan dahi anda mengeluarkan minyak: ")))
+		self.declare(Fact(tzone_berminyak=input("Apakah dagu, hidung, dan dahi anda mengeluarkan minyak? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(kencang=W())),salience = 1)
 	def symptom_6(self):
-		self.declare(Fact(kencang=input("Apakah kulit wajah anda terasa kencang atau tertarik: ")))
+		self.declare(Fact(kencang=input("Apakah kulit wajah anda terasa kencang atau tertarik? ")))
 	
 	@Rule(Fact(action='find_disease'), NOT(Fact(kulit_terkelupas=W())),salience = 1)
 	def symptom_7(self):
-		self.declare(Fact(kulit_terkelupas=input("Apakah kulit wajah anda terkelupas: ")))
+		self.declare(Fact(kulit_terkelupas=input("Apakah kulit wajah anda terkelupas? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(lembut=W())),salience = 1)
 	def symptom_8(self):
-		self.declare(Fact(lembut=input("Apakah kulit wajah anda lembut dan halus: ")))
+		self.declare(Fact(lembut=input("Apakah kulit wajah anda lembut dan halus? ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(kusam_tekstur=W())),salience = 1)
+	def symptom_9(self):
+		self.declare(Fact(kusam_tekstur=input("Apakah kulit wajah anda kusam dan bertekstur? ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(lembab=W())),salience = 1)
+	def symptom_10(self):
+		self.declare(Fact(lembab=input("Apakah kulit wajah anda terasa lembab? ")))
 
 	@Rule(Fact(action='find_disease'), NOT(Fact(pipi_kering=W())),salience = 1)
-	def symptom_9(self):
-		self.declare(Fact(pipi_kering=input("Apakah kulit wajah anda pada bagian pipi kering: ")))
+	def symptom_11(self):
+		self.declare(Fact(pipi_kering=input("Apakah kulit wajah anda pada bagian pipi kering? ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(sensitif_debu=W())),salience = 1)
+	def symptom_12(self):
+		self.declare(Fact(sensitif_debu=input("Apakah kulit wajah anda sensitif terhadap debu? ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(kering=W())),salience = 1)
+	def symptom_13(self):
+		self.declare(Fact(kering=input("Apakah kulit wajah anda terasa kering? ")))
+
+	@Rule(Fact(action='find_disease'), NOT(Fact(lengket=W())),salience = 1)
+	def symptom_14(self):
+		self.declare(Fact(lengket=input("Apakah kulit wajah anda terasa lengket? ")))
 
 	# Analisis
-	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="no"), Fact(gatal="no"), Fact(merah="no"), Fact(tzone_berminyak="no"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="yes"), Fact(pipi_kering="no"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="no"), Fact(gatal="no"), Fact(merah="no"), Fact(tzone_berminyak="no"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="yes"), Fact(kusam_tekstur="no"), Fact(lembab="yes"), Fact(pipi_kering="no"), Fact(sensitif_debu="no"), Fact(kering="no"), Fact(lengket="no"))
 	def disease_0(self):
 		self.declare(Fact(disease="normal"))
-	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="yes"), Fact(mudah_berjerawat="yes"), Fact(pori_terlihat="yes"),Fact(gatal="no"), Fact(merah="no"), Fact(tzone_berminyak="no"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(pipi_kering="no"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="yes"), Fact(mudah_berjerawat="yes"), Fact(pori_terlihat="yes"),Fact(gatal="no"), Fact(merah="no"), Fact(tzone_berminyak="no"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(kusam_tekstur="no"), Fact(lembab="no"), Fact(pipi_kering="no"), Fact(sensitif_debu="no"), Fact(kering="no"), Fact(lengket="yes"))
 	def disease_1(self):
 		self.declare(Fact(disease="berminyak"))
-	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="no"), Fact(gatal="yes"), Fact(merah="yes"), Fact(tzone_berminyak="no"), Fact(kencang="yes"), Fact(kulit_terkelupas="yes"), Fact(lembut="no"), Fact(pipi_kering="no"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="no"), Fact(gatal="yes"), Fact(merah="yes"), Fact(tzone_berminyak="no"), Fact(kencang="yes"), Fact(kulit_terkelupas="yes"), Fact(lembut="no"), Fact(kusam_tekstur="yes"), Fact(lembab="no"), Fact(pipi_kering="no"), Fact(sensitif_debu="no"), Fact(kering="yes"), Fact(lengket="no"))
 	def disease_3(self):
 		self.declare(Fact(disease="kering"))
-	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="yes"),Fact(gatal="yes"), Fact(merah="yes"), Fact(tzone_berminyak="no"), Fact(kencang="yes"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(pipi_kering="no"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="no"), Fact(pori_terlihat="yes"),Fact(gatal="yes"), Fact(merah="yes"), Fact(tzone_berminyak="no"), Fact(kencang="yes"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(kusam_tekstur="no"), Fact(lembab="no"), Fact(pipi_kering="no"), Fact(sensitif_debu="no"), Fact(kering="no"), Fact(lengket="no"))
 	def disease_4(self):
 		self.declare(Fact(disease="sensitive"))
-	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="yes"), Fact(pori_terlihat="no"), Fact(gatal="no"),Fact(merah="no"), Fact(tzone_berminyak="yes"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(pipi_kering="yes"))
+	@Rule(Fact(action='find_disease'),Fact(kulit_berminyak="no"), Fact(mudah_berjerawat="yes"), Fact(pori_terlihat="no"), Fact(gatal="no"),Fact(merah="no"), Fact(tzone_berminyak="yes"), Fact(kencang="no"), Fact(kulit_terkelupas="no"), Fact(lembut="no"), Fact(kusam_tekstur="no"), Fact(lembab="no"), Fact(pipi_kering="yes"), Fact(sensitif_debu="yes"), Fact(kering="no"), Fact(lengket="no"))
 	def disease_5(self):
 		self.declare(Fact(disease="kombinasi"))
 
@@ -127,9 +147,9 @@ class Greetings(KnowledgeEngine):
 		plt.axis('off')
 		plt.show()
 
-		print("Berikut deskripsi singkat dari kondisi anda:")
+		print("Sedikit deskripsi mengenai kondisi wajah anda:")
 		print(disease_details+"\n")
-		print("Beberapa pengobatan yang disarankan:")
+		print("Beberapa perawatan kulit yang disarankan:")
 		print(treatments+"\n")
 
 	@Rule(Fact(action='find_disease'),
@@ -142,7 +162,12 @@ class Greetings(KnowledgeEngine):
 		  Fact(kencang=MATCH.kencang),
 		  Fact(kulit_terkelupas=MATCH.kulit_terkelupas),
 		  Fact(lembut=MATCH.lembut),
+		  Fact(kusam_tekstur=MATCH.kusam_tekstur),
+		  Fact(lembab=MATCH.lembab),
 		  Fact(pipi_kering=MATCH.pipi_kering),
+		  Fact(sensitif_debu=MATCH.sensitif_debu),
+		  Fact(kering=MATCH.kering),
+		  Fact(lengket=MATCH.lengket),
 		  NOT(Fact(disease=MATCH.disease)),salience = -999)
 
 	def if_not_matched(self):
@@ -154,7 +179,7 @@ if __name__ == "__main__":
 	while(1):
 		engine.reset()  # Prepare the engine for the execution.
 		engine.run()  # Run it!
-		print("Ingin mencoba diagnosa dengan gejala yang lain?")
+		print("Apakah anda ngin mencoba diagnosa dengan gejala yang lain?")
 		if input() == "no":
 			exit()
 		#print(engine.facts)
